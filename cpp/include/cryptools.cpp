@@ -185,6 +185,17 @@ std::string CrypTools::base64Decrypt(std::string cipher)
     return out;
 }
 
+//========================================================================
+//                     Various private string functions
+//========================================================================
+
+std::string CrypTools::stringShift(std::string text, int shift)
+{
+    for (unsigned int i=0; i<text.length(); ++i)
+        text[i] += shift;
+    return text;
+}
+
 
 
 

@@ -10,6 +10,9 @@ class CrypTools: public std::string
 public:
     explicit CrypTools(std::string text);
 
+    static std::string toBase64(std::string plaintext);
+    static std::string fromBase64(std::string cipher);
+
     bool isNumber() const;
     bool isAlphabet() const;
     bool isAlphaNumerical() const;
@@ -22,14 +25,13 @@ public:
 
     std::string toBase64() const;
     std::string fromBase64() const;
-    static std::string toBase64(std::string plaintext);
-    static std::string fromBase64(std::string cipher);
 private:
 
     bool containsWhat(const std::string text, char character) const;
 
     static long fromBin(long n);
 
+    static std::string stringShift(std::string text, int shift = 0);
     static std::string toBin(int n);
     static std::string valueInRange(std::string text, unsigned int lower, unsigned int upper);
     static std::string base64Encrypt(std::string plaintext);

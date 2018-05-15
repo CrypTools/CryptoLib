@@ -97,6 +97,15 @@ long CrypTools::fromBin(long n)
     return total;
 }
 
+unsigned int CrypTools::indexOfFirst(std::string array, char character)
+{
+    unsigned int i;
+    for (i=0; i<array.length(); ++i)
+        if (array[i] == character)
+            return i;
+    throw;
+}
+
 unsigned int CrypTools::indexOfFirst(char character) const
 {
     unsigned int i;
@@ -186,13 +195,70 @@ std::string CrypTools::base64Decrypt(std::string cipher)
 }
 
 //========================================================================
-//                     Various private string functions
+//                           Caesar functions
+//========================================================================
+
+std::string CrypTools::caesarEncrypt(int shift, std::string plaintext, Types::Text type)
+{
+    switch (type) {
+    case Types::Unicode:
+        plaintext = stringShift(plaintext, shift);
+        break;
+    case Types::Alphabet:
+        plaintext = stringShiftInArray(alphabet, plaintext, shift);
+        break;
+    case Types::Base64:
+        plaintext = stringShiftInArray(alphabet+base10Numbers+"+/", plaintext, shift);
+        break;
+    case Types::AlphaNum:
+        plaintext = stringShiftInArray(alphabet+base10Numbers, plaintext, shift);
+        break;
+    case Types::LowercaseAlphabet:
+        plaintext = stringShiftInArray(lowercaseAlphabet, plaintext, shift);
+        break;
+    case Types::UppercaseAlphabet:
+        plaintext = stringShiftInArray(uppercaseAlphabet, plaintext, shift);
+        break;
+    case Types::Numbers:
+        plaintext = stringShiftInArray(base10Numbers, plaintext, shift);
+        break;
+    default:
+        plaintext = "";
+        break;
+    }
+    return plaintext;
+}
+
+std::string CrypTools::caesarEncrypt(int shift, Types::Text type) const
+{
+    return caesarEncrypt(shift, *this, type);
+}
+
+std::string CrypTools::caesarDecrypt(int shift, std::string cipher, Types::Text type)
+{
+    return caesarEncrypt(-shift, cipher, type);
+}
+
+std::string CrypTools::caesarDecrypt(int shift, Types::Text type) const
+{
+    return caesarEncrypt(-shift, *this, type);
+}
+
+//========================================================================
+//                   Various private string functions
 //========================================================================
 
 std::string CrypTools::stringShift(std::string text, int shift)
 {
     for (unsigned int i=0; i<text.length(); ++i)
         text[i] += shift;
+    return text;
+}
+
+std::string CrypTools::stringShiftInArray(std::string array, std::string text, int shift)
+{
+    for (unsigned int i=0; i<text.length(); ++i)
+        text[i] = array[indexOfFirst(array, text[i])+shift];
     return text;
 }
 

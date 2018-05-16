@@ -30,13 +30,16 @@ public:
 //========================================================================
 //                        Static public functions
 //========================================================================
-    static std::string toBase64(std::string plaintext);
-    static std::string fromBase64(std::string cipher);
+    static std::string toBase64  (std::string plaintext);
+    static std::string fromBase64(std::string cipher   );
 //========================================================================
     static std::string caesarEncrypt(int shift, std::string plaintext, Types::Text type = Types::Alphabet);
-    static std::string caesarDecrypt(int shift, std::string cipher, Types::Text type = Types::Alphabet);
+    static std::string caesarDecrypt(int shift, std::string cipher   , Types::Text type = Types::Alphabet);
 //========================================================================
     static std::string rot13(std::string input, Types::Case type = Types::Lowercase);
+//========================================================================
+    static std::string vigenereEncrypt(std::string plaintext, std::string key);
+    static std::string vigenereDecrypt(std::string cipher   , std::string key);
 //========================================================================
 
     bool isNumber() const;
@@ -60,6 +63,9 @@ public:
 //========================================================================
     std::string rot13(Types::Case type = Types::Lowercase) const;
 //========================================================================
+    std::string vigenereEncrypt(std::string key) const;
+    std::string vigenereDecrypt(std::string key) const;
+//========================================================================
 
 private:
 
@@ -73,6 +79,7 @@ private:
     static std::string valueInRange(std::string text, unsigned int lower, unsigned int upper);
     static std::string base64Encrypt(std::string plaintext);
     static std::string base64Decrypt(std::string cipher);
+    static std::string vigenereShifts(std::string input, std::string key, int goal = 0);//goal: 1 is encrypt, -1 is decrypt
     static std::string charMultiple(int times, char character);
 
 };

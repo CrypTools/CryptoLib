@@ -153,7 +153,7 @@ std::string CrypTools::fromBase64(std::string cipher)
 }
 
 //========================================================================
-//                          Base64 functions
+//                       Private Base64 functions
 //========================================================================
 
 std::string CrypTools::base64Encrypt(std::string plaintext)
@@ -195,7 +195,48 @@ std::string CrypTools::base64Decrypt(std::string cipher)
 }
 
 //========================================================================
-//                           Caesar functions
+//                       Public Vigenere functions
+//========================================================================
+
+//! Static
+
+std::string CrypTools::vigenereEncrypt(std::string plaintext, std::string key)
+{
+    return vigenereShifts(plaintext, key, 1);
+}
+
+std::string CrypTools::vigenereDecrypt(std::string cipher, std::string key)
+{
+    return vigenereShifts(cipher, key, -1);
+}
+
+//! Instance
+
+std::string CrypTools::vigenereEncrypt(std::string key) const
+{
+    return vigenereShifts(*this, key, 1);
+}
+
+std::string CrypTools::vigenereDecrypt(std::string key) const
+{
+    return vigenereShifts(*this, key, -1);
+}
+
+//========================================================================
+//                       Private Vigenere function
+//========================================================================
+
+std::string CrypTools::vigenereShifts(std::string input, std::string key, int goal)
+{
+    unsigned int keylen = key.length();
+    for (unsigned int i=0; i<input.length(); ++i){
+        input[i] = input[i] + (key[i%keylen] * goal);
+    }
+    return input;
+}
+
+//========================================================================
+//                        Public Caesar functions
 //========================================================================
 
 std::string CrypTools::caesarEncrypt(int shift, std::string plaintext, Types::Text type)

@@ -125,7 +125,7 @@ std::string CrypTools::decToBin(unsigned int value)
 }
 
 //========================================================================
-//                      Public encryption functions
+//                    Public Base64 encryption functions
 //========================================================================
 
 std::string CrypTools::toBase64() const
@@ -139,7 +139,7 @@ std::string CrypTools::toBase64(std::string plaintext)
 }
 
 //========================================================================
-//                      Public decryption functions
+//                    Public Base64 decryption functions
 //========================================================================
 
 std::string CrypTools::fromBase64() const
@@ -245,6 +245,20 @@ std::string CrypTools::caesarDecrypt(int shift, Types::Text type) const
 }
 
 //========================================================================
+//                           ROT13 functions
+//========================================================================
+
+std::string CrypTools::rot13(std::string input, Types::Case type)
+{
+    return caesarEncrypt(13, input, Types::Text(type));
+}
+
+std::string CrypTools::rot13(Types::Case type) const
+{
+    return caesarEncrypt(13, Types::Text(type));
+}
+
+//========================================================================
 //                   Various private string functions
 //========================================================================
 
@@ -258,7 +272,7 @@ std::string CrypTools::stringShift(std::string text, int shift)
 std::string CrypTools::stringShiftInArray(std::string array, std::string text, int shift)
 {
     for (unsigned int i=0; i<text.length(); ++i)
-        text[i] = array[indexOfFirst(array, text[i])+shift];
+        text[i] = array[(indexOfFirst(array, text[i])+shift)%array.length()];
     return text;
 }
 

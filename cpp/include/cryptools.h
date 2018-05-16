@@ -17,6 +17,10 @@ public:
         Base64,
         Unicode
     };
+    enum Case {
+        Lowercase = Text::LowercaseAlphabet,
+        Uppercase = Text::UppercaseAlphabet
+    };
 };
 
 class CrypTools: public std::string
@@ -24,12 +28,17 @@ class CrypTools: public std::string
 public:
     explicit CrypTools(std::string text);
 //========================================================================
+//                        Static public functions
+//========================================================================
     static std::string toBase64(std::string plaintext);
     static std::string fromBase64(std::string cipher);
 //========================================================================
     static std::string caesarEncrypt(int shift, std::string plaintext, Types::Text type = Types::Alphabet);
     static std::string caesarDecrypt(int shift, std::string cipher, Types::Text type = Types::Alphabet);
 //========================================================================
+    static std::string rot13(std::string input, Types::Case type = Types::Lowercase);
+//========================================================================
+
     bool isNumber() const;
     bool isAlphabet() const;
     bool isAlphaNumerical() const;
@@ -40,7 +49,8 @@ public:
     unsigned int indexOfFirst(char character) const;
 
     static std::string decToBin(unsigned int value);
-
+//========================================================================
+//                     Non-static public functions
 //========================================================================
     std::string toBase64() const;
     std::string fromBase64() const;
@@ -48,6 +58,9 @@ public:
     std::string caesarEncrypt(int shift, Types::Text type = Types::Alphabet) const;
     std::string caesarDecrypt(int shift, Types::Text type = Types::Alphabet) const;
 //========================================================================
+    std::string rot13(Types::Case type = Types::Lowercase) const;
+//========================================================================
+
 private:
 
     bool containsWhat(const std::string text, char character) const;

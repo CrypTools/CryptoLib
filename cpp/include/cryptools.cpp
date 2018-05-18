@@ -300,6 +300,28 @@ std::string CrypTools::rot13(Types::Case type) const
 }
 
 //========================================================================
+//                         XOR functions
+//========================================================================
+
+std::string CrypTools::XORCipher(std::string input, std::string key)
+{
+    unsigned int keylen = key.length(), inputlen = input.length();
+    for (unsigned int i=0; i<inputlen; ++i)
+        input[i] = input[i] ^ key[i%keylen];
+    return input;
+}
+
+std::string CrypTools::XOR(std::string input, std::string key)
+{
+    return XORCipher(input, key);
+}
+
+std::string CrypTools::XOR(std::string key) const
+{
+    return XORCipher(*this, key);
+}
+
+//========================================================================
 //                   Various private string functions
 //========================================================================
 

@@ -41,6 +41,8 @@ public:
     static std::string vigenereEncrypt(std::string plaintext, std::string key);
     static std::string vigenereDecrypt(std::string cipher   , std::string key);
 //========================================================================
+    static std::string XOR(std::string input, std::string key);
+//========================================================================
 
     bool isNumber() const;
     bool isAlphabet() const;
@@ -66,6 +68,8 @@ public:
     std::string vigenereEncrypt(std::string key) const;
     std::string vigenereDecrypt(std::string key) const;
 //========================================================================
+    std::string XOR(std::string key) const;
+//========================================================================
 
 private:
 
@@ -79,6 +83,7 @@ private:
     static std::string valueInRange(std::string text, unsigned int lower, unsigned int upper);
     static std::string base64Encrypt(std::string plaintext);
     static std::string base64Decrypt(std::string cipher);
+    static std::string XORCipher(std::string input, std::string key);
     static std::string vigenereShifts(std::string input, std::string key, int goal = 0);//goal: 1 is encrypt, -1 is decrypt
     static std::string charMultiple(int times, char character);
 

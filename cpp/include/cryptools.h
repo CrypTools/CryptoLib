@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+#include "zedwood/sha256.h"
+
 class Types
 {
 public:
@@ -27,6 +29,7 @@ class CrypTools: public std::string
 {
 public:
     explicit CrypTools(std::string text);
+    explicit CrypTools();
 //========================================================================
 //                        Static public functions
 //========================================================================
@@ -42,6 +45,9 @@ public:
     static std::string vigenereDecrypt(std::string cipher   , std::string key);
 //========================================================================
     static std::string XOR(std::string input, std::string key);
+//========================================================================
+    static std::string safeVigenereEncrypt(std::string plaintext, std::string key);
+    static std::string safeVigenereDecrypt(std::string cipher   , std::string key);
 //========================================================================
 
     bool isNumber() const;
@@ -70,6 +76,9 @@ public:
 //========================================================================
     std::string XOR(std::string key) const;
 //========================================================================
+    std::string safeVigenereEncrypt(std::string key) const;
+    std::string safeVigenereDecrypt(std::string key) const;
+//========================================================================
 
 private:
 
@@ -84,6 +93,7 @@ private:
     static std::string base64Encrypt(std::string plaintext);
     static std::string base64Decrypt(std::string cipher);
     static std::string XORCipher(std::string input, std::string key);
+    static std::string generateKey(std::string input_key, unsigned int goal);
     static std::string vigenereShifts(std::string input, std::string key, int goal = 0);//goal: 1 is encrypt, -1 is decrypt
     static std::string charMultiple(int times, char character);
 

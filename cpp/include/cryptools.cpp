@@ -11,6 +11,10 @@ CrypTools::CrypTools(std::string text):
 
 }
 
+CrypTools::CrypTools():
+    std::string()
+{}
+
 bool CrypTools::isNumber() const
 {
     std::string temp = *this;
@@ -200,6 +204,8 @@ std::string CrypTools::base64Decrypt(std::string cipher)
 
 //! Static
 
+//! Classic
+
 std::string CrypTools::vigenereEncrypt(std::string plaintext, std::string key)
 {
     return vigenereShifts(plaintext, key, 1);
@@ -210,7 +216,21 @@ std::string CrypTools::vigenereDecrypt(std::string cipher, std::string key)
     return vigenereShifts(cipher, key, -1);
 }
 
+//! Safe
+
+std::string CrypTools::safeVigenereEncrypt(std::string plaintext, std::string key)
+{
+    return vigenereShifts(plaintext, generateKey(key, plaintext.length()), 1);
+}
+
+std::string CrypTools::safeVigenereDecrypt(std::string cipher, std::string key)
+{
+    return vigenereShifts(cipher, generateKey(key, cipher.length()), -1);
+}
+
 //! Instance
+
+//! Classic
 
 std::string CrypTools::vigenereEncrypt(std::string key) const
 {
@@ -220,6 +240,18 @@ std::string CrypTools::vigenereEncrypt(std::string key) const
 std::string CrypTools::vigenereDecrypt(std::string key) const
 {
     return vigenereShifts(*this, key, -1);
+}
+
+//! Safe
+
+std::string CrypTools::safeVigenereEncrypt(std::string key) const
+{
+    return vigenereShifts(*this, generateKey(key, this->length()), 1);
+}
+
+std::string CrypTools::safeVigenereDecrypt(std::string key) const
+{
+    return vigenereShifts(*this, generateKey(key, this->length()), -1);
 }
 
 //========================================================================
@@ -297,6 +329,22 @@ std::string CrypTools::rot13(std::string input, Types::Case type)
 std::string CrypTools::rot13(Types::Case type) const
 {
     return caesarEncrypt(13, Types::Text(type));
+}
+
+//========================================================================
+//                         Key extension
+//========================================================================
+
+std::string CrypTools::generateKey(std::string input_key, unsigned int goal)
+{
+    std::string key;
+    unsigned int inputlen = input_key.length();
+    for (unsigned int i=0; key.length()<goal; ++i){
+        if (! (i < inputlen))
+            input_key[i] = (input_key[i] * input_key[i] - input_key[i]) % input_key[i];
+        key += sha256(valueInRange(input_key, 0, i%inputlen));
+    }
+    return key;
 }
 
 //========================================================================

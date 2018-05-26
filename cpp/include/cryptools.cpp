@@ -354,8 +354,14 @@ std::string CrypTools::generateKey(std::string input_key, unsigned int goal)
 std::string CrypTools::XORCipher(std::string input, std::string key)
 {
     unsigned int keylen = key.length(), inputlen = input.length();
-    for (unsigned int i=0; i<inputlen; ++i)
+    for (unsigned int i=0; i<inputlen; ++i) {
+        if (input[i] == key[i%keylen])
+            input[i] = -1;
+        else if (input[i] == -1)
+            input[i] = key[i%keylen];
+        else
         input[i] = input[i] ^ key[i%keylen];
+    }
     return input;
 }
 
